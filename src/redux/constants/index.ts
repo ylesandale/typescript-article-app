@@ -1,0 +1,4 @@
+export const ADD_ARTICLE = "ADD_ARTICLE";
+export const REMOVE_ARTICLE = "REMOVE_ARTICLE";
+export const SET_INPUT_VALUE1 = "SET_INPUT_VALUE1";
+export const SET_INPUT_VALUE2 = "SET_INPUT_VALUE2";

@@ -1,26 +1,60 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+import { Article } from "./components/Article";
+import { AddArticle } from "./components/AddArticle";
+import {
+  addArticle,
+  removeArticle,
+  setInputValue1,
+  setInputValue2,
+} from "./redux/actions/action";
+
+import "./index.scss";
+
+const App: React.FC = () => {
+  const dispatch = useDispatch();
+  const articles: readonly IArticle[] = useSelector(
+    (state: ArticlesSelector) => state.reducer.articles
   );
-}
+  const inputValue1 = useSelector(
+    (state: ArticlesSelector) => state.reducer.inputValue1
+  );
+  const inputValue2 = useSelector(
+    (state: ArticlesSelector) => state.reducer.inputValue2
+  );
+
+  const onInputValue1 = (value: string) => {
+    dispatch(setInputValue1(value));
+  };
+
+  const onInputValue2 = (value: string) => {
+    dispatch(setInputValue2(value));
+  };
+
+  const onAdd = (title: string, body: string) => {
+    dispatch(addArticle(title, body));
+  };
+
+  const onRemove = (id: number) => {
+    dispatch(removeArticle(id));
+  };
+
+  return (
+    <main>
+      <h1>My Articles</h1>
+      <AddArticle
+        inputValue1={inputValue1}
+        inputValue2={inputValue2}
+        onInputValue1={onInputValue1}
+        onInputValue2={onInputValue2}
+        onAdd={onAdd}
+      />
+      {articles.map((article: IArticle) => (
+        <Article key={article.id} article={article} onRemove={onRemove} />
+      ))}
+    </main>
+  );
+};
 
 export default App;
